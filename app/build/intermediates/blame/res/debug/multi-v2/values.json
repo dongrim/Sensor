@@ -1,0 +1,62 @@
+{
+    "logs": [
+        {
+            "outputFile": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "map": [
+                {
+                    "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\values\\styles.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "5",
+                        "startOffsets": "23",
+                        "endLines": "11",
+                        "endColumns": "12",
+                        "endOffsets": "478"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "268",
+                        "endLines": "14",
+                        "endColumns": "12",
+                        "endOffsets": "723"
+                    }
+                },
+                {
+                    "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\values\\dimens.xml",
+                    "from": {
+                        "startLines": "3,4",
+                        "startColumns": "4,4",
+                        "startOffsets": "89,147",
+                        "endColumns": "57,55",
+                        "endOffsets": "142,198"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,113",
+                        "endColumns": "57,55",
+                        "endOffsets": "108,164"
+                    }
+                },
+                {
+                    "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "3,4",
+                        "startColumns": "4,4",
+                        "startOffsets": "56,104",
+                        "endColumns": "47,50",
+                        "endOffsets": "99,150"
+                    },
+                    "to": {
+                        "startLines": "4,5",
+                        "startColumns": "4,4",
+                        "startOffsets": "169,217",
+                        "endColumns": "47,50",
+                        "endOffsets": "212,263"
+                    }
+                }
+            ]
+        }
+    ]
+}

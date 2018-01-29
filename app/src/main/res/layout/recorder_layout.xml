@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    >
+
+    <TextView
+        android:id="@+id/rec01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="28dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="34dp"
+        android:text="Hello Work?!" />
+
+    <TextView
+        android:id="@+id/rec02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rec01"
+        android:layout_alignStart="@+id/rec01"
+        android:layout_below="@+id/rec01"
+        android:layout_marginTop="53dp"
+        android:text="Hello Work?!" />
+
+    <TextView
+        android:id="@+id/rec03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rec02"
+        android:layout_alignStart="@+id/rec02"
+        android:layout_below="@+id/rec02"
+        android:layout_marginTop="59dp"
+        android:text="Hello Work?!" />
+
+    <TextView
+        android:id="@+id/nanosec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/rec03"
+        android:layout_alignStart="@+id/rec03"
+        android:layout_centerVertical="true"
+        android:text="Hello Work?!" />
+
+    <ToggleButton
+        android:id="@+id/btn_Rec"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nanosec"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp"
+        android:onClick="Save"
+        android:text="Recording"
+        android:textOff="Recording"
+        android:textOn="STOP" />
+</RelativeLayout>

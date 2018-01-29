@@ -1,0 +1,46 @@
+[
+    {
+        "merged": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\res\\merged\\debug\\layout_values_layout.xml.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\layout\\values_layout.xml"
+    },
+    {
+        "merged": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\res\\merged\\debug\\layout_recorder_layout.xml.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\layout\\recorder_layout.xml"
+    },
+    {
+        "merged": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\res\\merged\\debug\\layout_list_rows.xml.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\layout\\list_rows.xml"
+    },
+    {
+        "merged": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\res\\merged\\debug\\layout_capability_layout.xml.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\layout\\capability_layout.xml"
+    },
+    {
+        "merged": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\res\\merged\\debug\\raw_mario.mp3.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\raw\\mario.mp3"
+    },
+    {
+        "merged": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_ic_launcher.png.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi_ic_launcher.png.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\drawable-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_ic_launcher.png.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\drawable-mdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable_list_raw_divider_gradient.xml.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\drawable\\list_raw_divider_gradient.xml"
+    },
+    {
+        "merged": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\res\\merged\\debug\\layout_activity_main.xml.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\layout\\activity_main.xml"
+    },
+    {
+        "merged": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xxhdpi_ic_launcher.png.flat",
+        "source": "D:\\Android\\AndroidStudioProjects\\SensorPlay-master\\app\\src\\main\\res\\drawable-xxhdpi\\ic_launcher.png"
+    }
+]
