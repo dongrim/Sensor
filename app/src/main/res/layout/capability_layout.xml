@@ -204,13 +204,12 @@
 
     <Button
         android:id="@+id/showvalues"
-        android:layout_width="180dp"
-        android:layout_height="200dp"
-        android:layout_below="@+id/sensor_resolution"
-        android:layout_marginLeft="22dp"
-        android:layout_marginStart="22dp"
-        android:layout_toEndOf="@+id/sensorresolution"
-        android:layout_toRightOf="@+id/sensorresolution"
+        android:layout_width="175dp"
+        android:layout_height="60dp"
+        android:layout_alignBaseline="@+id/sensorhandle"
+        android:layout_alignBottom="@+id/sensorhandle"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:onClick="onClickSensorValues"
         android:text="Get Sensor Values" />
 </RelativeLayout>

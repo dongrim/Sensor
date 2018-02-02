@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 /**
  * Created by 꾸꾸님 on 2018-01-27.
@@ -36,7 +37,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertData (String x, String y, String z, String time) {
+    public boolean insertData(String x, String y, String z, String time) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, x);
@@ -48,5 +49,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return false;
         } else
             return true;
+    }
+
+    public void deleteDbTable() {
+        SQLiteDatabase db = this.getReadableDatabase();
+//        db.delete(TABLE_NAME,null,null);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        onCreate(db);
+    }
+
+    public void dbopen() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.isOpen();
+    }
+
+    public void dbclose() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.close();
     }
 }

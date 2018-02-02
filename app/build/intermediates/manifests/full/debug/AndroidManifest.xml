@@ -12,7 +12,8 @@
         android:allowBackup="true"
         android:debuggable="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:testOnly="true" >
         <activity
             android:name="com.sensorplay.SensorListActivity"
             android:screenOrientation="portrait"
@@ -34,15 +35,6 @@
         </activity>
         <activity
             android:name="com.sensorplay.SensorValuesActivity"
-            android:parentActivityName="com.sensorplay.SensorListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.sensorplay.SensorListActivity" />
-        </activity>
-        <activity
-            android:name="com.sensorplay.SensorRecDisplay"
             android:parentActivityName="com.sensorplay.SensorListActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar" >

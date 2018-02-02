@@ -46,18 +46,7 @@
          
          </activity>
 
-        <activity android:name="com.sensorplay.SensorRecDisplay"
-            android:screenOrientation="portrait"
-            android:parentActivityName="com.sensorplay.SensorListActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.sensorplay.SensorListActivity" />
-
-        </activity>
-
-          <service android:name="com.sensorplay.SensorService"/>
+        <service android:name="com.sensorplay.SensorService"/>
 
     </application>
 

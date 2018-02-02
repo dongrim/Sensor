@@ -1,19 +1,29 @@
 package com.sensorplay;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import java.sql.Date;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 import static android.os.SystemClock.sleep;
 
@@ -30,13 +40,19 @@ public class SensorValuesActivity extends Activity implements SensorEventListene
 	private TextView mEventValue_4;
 	private TextView mEventValue_5;
 	private TextView mEventValue_6;
-	private TextView mTime;
 	private TextView mAccuracy;
+    private TextView mTime;
+    private TextView mToday;
+    private TextView mSensorName;
+    Chronometer mCurrentTime;
 	DataBaseHelper myDB;
-	Button btnAddData;
-	ToggleButton btnToggle;
+	ToggleButton toggleStartStop, btnAddData;
+	Button btnDeleteData;
 	boolean Regi;
-	Thread mthread;
+	long mNow;
+	long mSampling = 0;
+	Date mDate;
+    ValueThread mThread = new ValueThread();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,25 +70,22 @@ public class SensorValuesActivity extends Activity implements SensorEventListene
 		mEventValue_4 = (TextView)findViewById(R.id.event4);
 		mEventValue_5 = (TextView)findViewById(R.id.event5);
 		mEventValue_6 = (TextView)findViewById(R.id.event6);
+        mAccuracy = (TextView)findViewById(R.id.accuracy);
 		mTime = (TextView)findViewById(R.id.time);
-		mAccuracy = (TextView)findViewById(R.id.accuracy);
-        btnAddData = (Button) findViewById(R.id.measurerecords);
+		mCurrentTime = (Chronometer) findViewById(R.id.currenttime);
+        mCurrentTime.setText("00:00:00");
+        mToday = (TextView)findViewById(R.id.date);
+        mToday.setText(getTime());
+        mSensorName = (TextView)findViewById(R.id.sensornamedisplay);
+        mSensorName.setText(mSensor.getName());
+        toggleStartStop = (ToggleButton) this.findViewById(R.id.toggle_start);
+        btnAddData = (ToggleButton) findViewById(R.id.toggle_rec);
+        btnDeleteData = (Button) findViewById(R.id.btn_clear);
 		myDB = new DataBaseHelper(this);
-        this.AddData();
-
-		btnToggle = (ToggleButton) this.findViewById(R.id.measuretoggle);
-		btnToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-				if (isChecked == true) {
-					Regi = true;
-					SensorValuesActivity(mSensorManager);
-				} else {
-					Regi = false;
-					SensorValuesActivity(mSensorManager);
-				}
-			}
-		});
+        AddData();
+        StartStop();
+        CurrentTime();
+        DeleteData();
 	}
 
 	@Override
@@ -96,7 +109,7 @@ public class SensorValuesActivity extends Activity implements SensorEventListene
 	public void onSensorChanged(final SensorEvent event) {
 
 		mAccuracy.setText(String.valueOf(event.accuracy));
-		mTime.setText("Time: " + String.valueOf(event.timestamp));
+		mTime.setText(String.valueOf(event.timestamp));
 		mEventValue_0.setText(String.valueOf(event.values[0]));
 		if(event.values.length>1) {
 			mEventValue_1.setText(String.valueOf(event.values[1]));
@@ -118,53 +131,116 @@ public class SensorValuesActivity extends Activity implements SensorEventListene
 		}
 	}
 
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-	}
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+    }
 
-	Button.OnClickListener btnRec = new View.OnClickListener() {
-		@Override
-		public void onClick(View view) {
-			Intent intent = new Intent(SensorValuesActivity.this, SensorRecDisplay.class);
-			startActivity(intent);
-		}
-	};
+    public void CurrentTime() {
+        mCurrentTime.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long time = SystemClock.elapsedRealtime() - chronometer.getBase();
+                int h = (int) (time/3600000);
+                int m = (int) ((time-h*3600000)/60000);
+                int s = (int) ((time-h*3600000-m*60000)/1000);
+                String hh = h < 10 ? "0"+h: h+"";
+                String mm = m < 10 ? "0"+m: m+"";
+                String ss = s < 10 ? "0"+s: s+"";
+                chronometer.setText(hh+":"+mm+":"+ss);
+            }
+        });
+
+    }
+
+    SimpleDateFormat mFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private String getTime() {
+	    mNow = System.currentTimeMillis();
+	    mDate = new Date(mNow);
+	    return mFormat.format(mDate);
+    }
 
 	public void SensorValuesActivity(SensorManager mSensorManager) {
 		if (Regi) {
-			mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ALL);
+            Intent intent = getIntent();
+            mSensorType = intent.getIntExtra(getResources().getResourceName(R.string.sensor_type), 0);
+            mSensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
+            mSensor = mSensorManager.getDefaultSensor(mSensorType);
 			mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_FASTEST);
 		} else {
 			mSensorManager.unregisterListener(this);
 		}
 	}
 
-	public void AddData() {
-	    btnAddData.setOnClickListener(new View.OnClickListener() {
+	public void StartStop() {
+        toggleStartStop.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                mthread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked == true) {
+                    Regi = true;
+                    Toast.makeText(SensorValuesActivity.this, "START!", Toast.LENGTH_SHORT).show();
+                    SensorValuesActivity(mSensorManager);
+                    mCurrentTime.setBase(SystemClock.elapsedRealtime());
+                    mCurrentTime.start();
+                } else {
+                    Regi = false;
+                    Toast.makeText(SensorValuesActivity.this, "PAUSE!", Toast.LENGTH_SHORT).show();
+                    SensorValuesActivity(mSensorManager);
+                    mCurrentTime.stop();
+                }
 
-                        while (true) {
-                            try {
-                                Thread.sleep(1000);
-                                boolean inInserted = myDB.insertData(mEventValue_0.getText().toString(), mEventValue_1.getText().toString(), mEventValue_2.getText().toString(), mTime.getText().toString());
-                                /*if (inInserted = true)
-                                    Toast.makeText(SensorValuesActivity.this, "Recording Data!", Toast.LENGTH_SHORT).show();
-                                else
-                                    Toast.makeText(SensorValuesActivity.this, "No Data..", Toast.LENGTH_SHORT).show();*/
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
+            }
+        });
+    }
 
+
+    public class ValueThread extends Thread {
+
+        @Override
+        public void run() {
+            while (!Thread.currentThread().isInterrupted()) {
+                try {
+                    Thread.sleep(mSampling);
+                    myDB.insertData(mEventValue_0.getText().toString(), mEventValue_1.getText().toString(), mEventValue_2.getText().toString(), mTime.getText().toString());
+                    Log.d("aabc", "x: "+mEventValue_0.getText().toString() +" y: "+ mEventValue_1.getText().toString() +" z: "+ mEventValue_2.getText().toString() +" TIME: "+ mTime.getText().toString());
+                } catch (InterruptedException e) {
+                    Toast.makeText(SensorValuesActivity.this, "THREAD ERROR!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
+	public void AddData() {
+	    btnAddData.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, final boolean isChecked) {
+
+                if (isChecked == true) {
+                    boolean inInserted = myDB.insertData("Start",mToday.getText().toString(),mSensorName.getText().toString(),null);
+                    if (inInserted == true) {
+                        Toast.makeText(SensorValuesActivity.this, "Recording Data!", Toast.LENGTH_SHORT).show();
+                        myDB.dbopen();
+                        mThread.start();
+                    } else {
+                        Toast.makeText(SensorValuesActivity.this, "ERROR REC", Toast.LENGTH_SHORT).show();
                     }
-                });
-                mthread.start();
+                } else {
+                    myDB.insertData("Finish",mToday.getText().toString(),mSensorName.getText().toString(),null);
+                    Toast.makeText(SensorValuesActivity.this, "Finish Recording", Toast.LENGTH_SHORT).show();
+                    mThread.interrupt();
+                    myDB.dbclose();
+                }
             }
         });
 
+    }
+
+    public void DeleteData() {
+        btnDeleteData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myDB.deleteDbTable();
+                Toast.makeText(SensorValuesActivity.this, "DB deleting is done!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

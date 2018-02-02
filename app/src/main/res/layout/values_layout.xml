@@ -35,7 +35,6 @@
         android:layout_below="@+id/event0"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
-       
         />
       <TextView 
         android:id="@+id/event2"
@@ -110,16 +109,17 @@
         android:layout_marginLeft="10dp"
         android:textSize="16sp"
         />
+
       <TextView 
         android:id="@+id/sensortimestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TimeStamp"
-        android:layout_below="@+id/accuracy"
+        android:layout_alignLeft="@+id/sensoraccuracy"
+        android:layout_alignTop="@+id/sensoraccuracy"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="180dp"
         android:textSize="18sp"
         />
       <TextView 
@@ -128,40 +128,110 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/darker_gray"
         android:layout_below="@+id/sensortimestamp"
+        android:layout_alignLeft="@+id/sensortimestamp"
+        android:layout_marginTop="5dp"
+        android:textSize="16sp"
+        />
+   <TextView
+       android:id="@+id/sensorcurrenttime"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Stop Watch"
+       android:layout_below="@+id/accuracy"
+       android:textColor="@android:color/black"
+       android:textStyle="bold"
+       android:layout_marginTop="30dp"
+       android:layout_marginLeft="10dp"
+       android:textSize="18sp"
+       />
+    <Chronometer
+        android:id="@+id/currenttime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/darker_gray"
+        android:layout_below="@+id/sensorcurrenttime"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
         android:textSize="16sp"
         />
+    <TextView
+        android:id="@+id/today"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Time"
+        android:layout_below="@+id/time"
+        android:layout_marginTop="30dp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:layout_alignLeft="@+id/time"
+        android:textSize="18sp"
+        />
+   <TextView
+       android:id="@+id/date"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignLeft="@+id/today"
+       android:layout_alignStart="@+id/today"
+       android:layout_below="@+id/today"
+       android:layout_marginTop="5dp"
+       android:textColor="@android:color/darker_gray"
+       android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/sensorgetname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/currenttime"
+        android:layout_alignStart="@+id/currenttime"
+        android:layout_below="@+id/currenttime"
+        android:layout_marginTop="22dp"
+        android:text="SENSOR NAME"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/sensornamedisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/currenttime"
+        android:layout_alignStart="@+id/currenttime"
+        android:layout_below="@+id/sensorgetname"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="5dp"
+        android:textSize="16sp" />
 
    <ToggleButton
-       android:id="@+id/measuretoggle"
+       android:id="@+id/toggle_start"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:layout_alignParentBottom="true"
        android:layout_marginBottom="45dp"
        android:layout_marginLeft="40dp"
-       android:text="START"
-       android:textOff="START"
-       android:textOn="STOP" />
+       android:textOn="START"
+       android:textOff="STOP"
+       />
 
-   <Button
-       android:id="@+id/measurerecords"
+   <ToggleButton
+       android:id="@+id/toggle_rec"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:layout_alignTop="@+id/measuretoggle"
-       android:layout_alignBottom="@+id/measuretoggle"
+       android:layout_alignTop="@+id/toggle_start"
+       android:layout_alignBottom="@+id/toggle_start"
        android:layout_marginLeft="20dp"
-       android:layout_toRightOf="@+id/measuretoggle"
-       android:text="RECORDS" />
+       android:layout_toRightOf="@+id/toggle_start"
+       android:textOn="ON_REC"
+       android:textOff="OFF_REC"
+       />
 
    <Button
-       android:id="@+id/saverecords"
+       android:id="@+id/btn_clear"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:layout_alignTop="@+id/measurerecords"
-       android:layout_alignBottom="@+id/measurerecords"
+       android:layout_alignTop="@+id/toggle_rec"
+       android:layout_alignBottom="@+id/toggle_rec"
        android:layout_marginLeft="20dp"
-       android:layout_toRightOf="@+id/measurerecords"
-       android:text="SAVE VALUES" />
+       android:layout_toRightOf="@+id/toggle_rec"
+       android:text="CLEAR_DB"
+       />
 
 </RelativeLayout>
