@@ -9,8 +9,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.nio.channels.FileChannel;
 import java.sql.Date;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -47,7 +56,7 @@ public class SensorValuesActivity extends Activity implements SensorEventListene
     Chronometer mCurrentTime;
 	DataBaseHelper myDB;
 	ToggleButton toggleStartStop, btnAddData;
-	Button btnDeleteData;
+	Button btnDeleteData, btnSendData;
 	boolean Regi;
 	long mNow;
 	long mSampling = 0;
@@ -81,12 +90,14 @@ public class SensorValuesActivity extends Activity implements SensorEventListene
         toggleStartStop = (ToggleButton) this.findViewById(R.id.toggle_start);
         btnAddData = (ToggleButton) findViewById(R.id.toggle_rec);
         btnDeleteData = (Button) findViewById(R.id.btn_clear);
+        btnSendData = (Button) findViewById(R.id.btn_mail);
 		myDB = new DataBaseHelper(this);
         AddData();
         StartStop();
         CurrentTime();
         DeleteData();
-	}
+        MailData();
+    }
 
 	@Override
 	protected void onResume() {
@@ -240,6 +251,58 @@ public class SensorValuesActivity extends Activity implements SensorEventListene
             public void onClick(View view) {
                 myDB.deleteDbTable();
                 Toast.makeText(SensorValuesActivity.this, "DB deleting is done!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public static void backupDatabase(String databaseName) {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+//            String packageName = context.getApplicationInfo().packageName;
+
+            if (sd.canWrite()) {
+                String currentDBPath = String.format("//data//com.sensorplay//databases//%s",
+                        databaseName);
+                String backupDBPath = String.format("%s", databaseName);
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            }
+        } catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
+    public void MailData() {
+        btnSendData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                backupDatabase("sensorValue.db");
+
+//                File data = Environment.getDataDirectory();
+                String dbName = "sensorValue.db";
+                String currentDBPath = "//storage//emulated//0//" + dbName;
+                File exportFile = new File(currentDBPath);
+                Uri uri = Uri.fromFile(exportFile);
+
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.setType("file/*");
+                String[] adress = {"icevolt123@naver.com"};
+                email.putExtra(Intent.EXTRA_EMAIL, adress);
+                email.putExtra(Intent.EXTRA_SUBJECT, "DB file from Jun");
+                email.putExtra(Intent.EXTRA_TEXT, "Sensor DB file attached");
+                email.putExtra(Intent.EXTRA_STREAM, uri);
+                startActivity(email);
             }
         });
     }
